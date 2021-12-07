@@ -1,7 +1,7 @@
-import 'package:FOOD_APP/models/meal.dart';
 import 'package:flutter/material.dart';
-import '../dummy_data.dart';
-import '../screens/meal_details_screen.dart';
+
+import '../screens/meal_detail_screen.dart';
+import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
   final String id;
@@ -12,26 +12,26 @@ class MealItem extends StatelessWidget {
   final Affordability affordability;
 
   MealItem(
-      {this.id,
-      this.title,
-      this.imageUrl,
-      this.duration,
-      this.complexity,
-      this.affordability});
+      {@required this.id,
+      @required this.title,
+      @required this.imageUrl,
+      @required this.affordability,
+      @required this.complexity,
+      @required this.duration,});
 
-  String get complexitytext {
+  String get complexityText {
     switch (complexity) {
       case Complexity.Simple:
         return 'Simple';
         break;
       case Complexity.Challenging:
-        return 'Challengigng';
+        return 'Challenging';
         break;
       case Complexity.Hard:
-        return 'Heard';
+        return 'Hard';
         break;
       default:
-        return "Unknown";
+        return 'Unknown';
     }
   }
 
@@ -44,19 +44,24 @@ class MealItem extends StatelessWidget {
         return 'Pricey';
         break;
       case Affordability.Luxurious:
-        return 'Luxurious';
+        return 'Expensive';
         break;
       default:
-        return "Unknown";
+        return 'Unknown';
     }
   }
 
-  void selectMeal(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(
+  void selectMeal(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(
       MealDetailScreen.routeName,
       arguments: id,
-      // arguments: {'id': id},
-    );
+    )
+        .then((result) {
+      if (result != null) {
+        // removeItem(result);
+      }
+    });
   }
 
   @override
@@ -70,9 +75,9 @@ class MealItem extends StatelessWidget {
         elevation: 4,
         margin: EdgeInsets.all(10),
         child: Column(
-          children: [
+          children: <Widget>[
             Stack(
-              children: [
+              children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
@@ -90,14 +95,17 @@ class MealItem extends StatelessWidget {
                   right: 10,
                   child: Container(
                     width: 300,
-                    color: Colors.black45,
+                    color: Colors.black54,
                     padding: EdgeInsets.symmetric(
                       vertical: 5,
                       horizontal: 20,
                     ),
                     child: Text(
                       title,
-                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                      ),
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),
@@ -106,40 +114,46 @@ class MealItem extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: <Widget>[
                   Row(
-                    children: [
-                      Icon(Icons.schedule),
+                    children: <Widget>[
+                      Icon(
+                        Icons.schedule,
+                      ),
                       SizedBox(
                         width: 6,
                       ),
-                      Text('$duration'),
+                      Text('$duration min'),
                     ],
                   ),
                   Row(
-                    children: [
-                      Icon(Icons.work),
+                    children: <Widget>[
+                      Icon(
+                        Icons.work,
+                      ),
                       SizedBox(
                         width: 6,
                       ),
-                      Text('$complexitytext'),
+                      Text(complexityText),
                     ],
                   ),
                   Row(
-                    children: [
-                      Icon(Icons.attach_money),
+                    children: <Widget>[
+                      Icon(
+                        Icons.attach_money,
+                      ),
                       SizedBox(
                         width: 6,
                       ),
-                      Text('$affordabilityText'),
+                      Text(affordabilityText),
                     ],
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
